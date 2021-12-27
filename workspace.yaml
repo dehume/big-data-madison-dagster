@@ -1,0 +1,10 @@
+---
+load_from:
+  - grpc_server:
+      host: data-analytics
+      port: 4000
+      location_name: "data-analytics"
+  - grpc_server:
+      host: data-science
+      port: 4001
+      location_name: "data-science"
