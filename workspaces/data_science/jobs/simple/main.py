@@ -1,6 +1,6 @@
 import time
 
-from dagster import Boolean, Int, graph, op
+from dagster import Bool, Int, graph, op
 
 
 def multiple_by_three(input_number: Int) -> Int:
@@ -15,7 +15,7 @@ def multiple_time(context) -> Int:
 
 
 @op
-def sleeper(context, multi_sleep_time: Int) -> Boolean:
+def sleeper(context, multi_sleep_time: Int) -> Bool:
     context.log.info("Sleeping")
     time.sleep(multi_sleep_time)
     return True
