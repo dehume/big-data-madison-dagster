@@ -8,7 +8,7 @@ Dagster can be [deployed](https://docs.dagster.io/deployment/overview) in a numb
 
 <img width="300" src="assets/docker_compose.png">
 
-### Workspaces
+### Workspaces and Jobs
 There are two main workspaces `data_analytics` and `data_science`. Each of these workspaces has their own dependencies and Dagster jobs. Within the directory for each workspace there is a `repo.py` which contains all the pipelines, schedules and sensors for the workspace and a `requirements.txt` for any additional python dependencies specific to that workspace. Note this is not the only way to layout resources. Each workspace can exist as a dedicated Github repo.
 
 | Workspace | Pipeline | Description | Concepts |

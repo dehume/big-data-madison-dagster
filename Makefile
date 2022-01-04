@@ -10,11 +10,11 @@ start-detached:
 
 .PHONY: restart-data-analytics
 restart-data-analytics:
-	@docker container restart $(docker ps -aqf "name=data-analytics")
+	docker container restart $(docker ps -aqf "name=data-analytics")
 
 .PHONY: restart-data-science
 restart-data-science:
-	@docker container restart $(docker ps -aqf "name=data-science")
+	docker container restart $(docker ps -aqf "name=data-science")
 
 .PHONY: down
 down:
