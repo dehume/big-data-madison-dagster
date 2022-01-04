@@ -1,0 +1,166 @@
+---
+version: "3.9"
+
+x-build:
+  &default-build
+  context: .
+  dockerfile: Dockerfile
+
+x-app-vars:
+  &default-app-vars
+  DAGSTER_POSTGRES_HOSTNAME: "postgresql"
+  DAGSTER_POSTGRES_DB: "postgres_db"
+  DAGSTER_POSTGRES_USER: "postgres_user"
+  DAGSTER_POSTGRES_PASSWORD: "postgres_password"
+
+services:
+
+  # Dagster core services
+  dagit:
+    build:
+      << : *default-build
+      target: dagit
+    container_name: dagit
+    restart: on-failure
+    environment:
+      << : *default-app-vars
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - workspace
+    profiles:
+      - dagster
+    volumes:
+      - ./dagster.yaml:/opt/dagster/dagster_home/dagster.yaml
+      - ./workspace.yaml:/opt/dagster/dagster_home/workspace.yaml
+    networks:
+      - dagster_network
+
+  dagster-daemon:
+    build:
+      << : *default-build
+      target: daemon
+    container_name: dagster-daemon
+    restart: on-failure
+    environment:
+      << : *default-app-vars
+    depends_on:
+      - postgres
+      - workspace
+    profiles:
+      - dagster
+    volumes:
+      - ./dagster.yaml:/opt/dagster/dagster_home/dagster.yaml
+    networks:
+      - dagster_network
+
+  postgresql:
+    image: postgres:11
+    container_name: postgresql
+    environment:
+      POSTGRES_DB: postgres_db
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - ./postgres-dagster:/var/lib/postgresql/data
+    networks:
+      - dagster_network
+
+  # workspace
+  data-analytics:
+    build:
+      << : *default-build
+      target: data-analytics
+    container_name: data-analytics
+    restart: always
+    environment:
+      << : *default-app-vars
+      # Keys for localstack
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      - localstack
+      - mongodb
+    volumes:
+      - ./workspaces/data_analytics:/opt/dagster/dagster_home/src
+    profiles:
+      - dagster
+    networks:
+      - dagster_network
+
+  data-analytics-test:
+    build:
+      << : *default-build
+      target: data-analytics-test
+    volumes:
+      - ./workspaces/data_analytics:/opt/dagster/dagster_home/src
+    profiles:
+      - data-analytics-test
+
+  data-science:
+    build:
+      << : *default-build
+      target: data-science
+    restart: always
+    container_name: data-science
+    environment:
+      << : *default-app-vars
+      # Keys for localstack
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      - localstack
+      - mongodb
+    volumes:
+      - ./workspaces/data_science:/opt/dagster/dagster_home/src
+    profiles:
+      - dagster
+    networks:
+      - dagster_network
+
+  data-science-test:
+    build:
+      << : *default-build
+      target: data-science-test
+    volumes:
+      - ./workspaces/data_science:/opt/dagster/dagster_home/src
+    profiles:
+      - data-science-test
+
+  # Formatting
+  format:
+    build:
+      << : *default-build
+      target: test
+    volumes:
+      - ./workspaces:/src
+    command: >
+      /bin/sh -c "black src/ && isort src/"
+    profiles:
+      - format
+
+  # Localstack
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      HOSTNAME: localhost
+      SERVICES: s3
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      DEFAULT_REGION: us-east-1
+    volumes:
+      - ./local_stack.sh:/docker-entrypoint-initaws.d/create_localstack_infra.sh
+    networks:
+      - dagster_network
+
+networks:
+  dagster_network:
+    driver: bridge
+    name: dagster_network
+
+volumes:
+  postgresql:

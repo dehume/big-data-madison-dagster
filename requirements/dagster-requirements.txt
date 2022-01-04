@@ -1,0 +1,5 @@
+dagster==0.13.12
+dagit==0.13.12
+dagster-graphql==0.13.12
+dagster-postgres==0.13.12
+dagster-aws==0.13.12
