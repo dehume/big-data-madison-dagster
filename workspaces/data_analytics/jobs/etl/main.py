@@ -25,10 +25,7 @@ def insert_into_table(context, table_name: String):
     yield AssetMaterialization(
         asset_key="my_micro_batch",
         description="Inserting a random batch of records",
-        metadata={
-            "table_name": table_name,
-            "number_of_rows": number_of_rows
-        },
+        metadata={"table_name": table_name, "number_of_rows": number_of_rows},
     )
     yield Output(number_of_rows)
 

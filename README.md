@@ -24,3 +24,15 @@ Assumes you have [Docker](https://www.docker.com/) running on your machine. To s
 2. Access dagit: [http://localhost:3000/](http://localhost:3000/)
 
 The `Makefile` also has some handy commands for running formatting (`make fmt`) and running tests for the two workspaces (`make test-data-science` and `make test-data-analytics`).
+
+#### Sensor
+If you want to experiment and try out the sensor. Enter the `localstack` container:
+```
+docker exec -it {localstack container id} /bin/bash
+```
+
+Create and upload a file to the localstack s3 bucket `dagster` in the `sensor` prefix (doesn't matter what the content is).
+```
+touch test.txt
+aws s3 cp test.txt s3://dagster/sensor/test.txt --endpoint-url http://host.docker.internal:4566
+```

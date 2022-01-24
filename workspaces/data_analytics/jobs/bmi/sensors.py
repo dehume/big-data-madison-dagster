@@ -48,7 +48,7 @@ def get_s3_keys(
     return []
 
 
-@sensor(job=bmi_local, minimum_interval_seconds=60)
+@sensor(job=bmi_local, minimum_interval_seconds=30)
 def bmi_local_s3_sensor(context):
     new_s3_keys = get_s3_keys(
         bucket="dagster",
@@ -62,11 +62,6 @@ def bmi_local_s3_sensor(context):
         yield RunRequest(
             run_key=s3_key,
             run_config={
-                "resources": {
-                    "s3": {
-                        "config": {"endpoint_url": "http://host.docker.internal:4566"}
-                    },
-                },
                 "ops": {
                     "pounds_to_kilograms": {"config": {"weight_pounds": 190}},
                     "inches_to_meters": {"config": {"height_inches": 75}},
