@@ -1,0 +1,2 @@
+# Pandas will only be included in the data_science workspace
+pandas
