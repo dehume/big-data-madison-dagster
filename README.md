@@ -14,7 +14,7 @@ There are two main workspaces `data_analytics` and `data_science`. Each of these
 | Workspace | Pipeline | Description | Concepts |
 | --- | --- | --- | --- |
 | data_analytics | bmi | Calcuate BMI | op, graph, job, schedule, sensor |
-| data_analytics | etl | Load data from one system into another |  resource, config |
+| data_analytics | etl | Load data from one system into another |  resource, config, asset |
 | data_science | simple | Simple dummy job | additional workspace and depedency isolation |
 
 ### Quick Start
@@ -22,3 +22,5 @@ Assumes you have [Docker](https://www.docker.com/) running on your machine. To s
 
 1. `make start-detached`
 2. Access dagit: [http://localhost:3000/](http://localhost:3000/)
+
+The `Makefile` also has some handy commands for running formatting (`make fmt`) and running tests for the two workspaces (`make test-data-science` and `make test-data-analytics`).
