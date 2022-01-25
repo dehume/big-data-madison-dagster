@@ -28,7 +28,7 @@ class Postgres:
     description="A resource that can run Postgres",
 )
 def postgres_resource(context) -> Postgres:
-    """This resource defines a Mongo client"""
+    """This resource defines a Postgres client"""
     return Postgres(
         host=context.resource_config["host"],
         user=context.resource_config["user"],
