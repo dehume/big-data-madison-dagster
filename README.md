@@ -1,7 +1,7 @@
 # Madison Big Data Meetup Jan 2022
 
 # Overview
-Repo to accompany my Big Data Meetup talk on [Dagster](https://dagster.io/). All the demos in the project can be run locally using this repo. This is not exhaustive of everything you can accomplish with Dagster but wanted to demonstrate some of the main abstractions of the framework.
+Repo to accompany my Big Data Meetup talk ([slides](https://docs.google.com/presentation/d/1Wpv3iAYp_7NBD9ya1wZyavkuFr1eZIkeRwu8qhZFBxs/edit?usp=sharing)) on [Dagster](https://dagster.io/). All the demos in the project can be run locally using this repo. This is not exhaustive of everything you can accomplish with Dagster but wanted to demonstrate some of the main abstractions of the framework.
 
 ### Architecture
 Dagster can be [deployed](https://docs.dagster.io/deployment/overview) in a number of ways and environments (k8s, ECS...). For this example we are using Docker. All together this will spin up 6 containers: dagit (UI), dagster daemon, 2 Dagster workspaces (user code), postgres (metadata store) and localstack (which is not directly part of Dagster but used to show how Dagster can interact with an external system)
