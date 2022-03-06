@@ -136,7 +136,7 @@ services:
     volumes:
       - ./workspaces:/src
     command: >
-      /bin/sh -c "black src/ && isort src/"
+      /bin/sh -c "black src/ && isort src/ && yamllint ."
     profiles:
       - format
 

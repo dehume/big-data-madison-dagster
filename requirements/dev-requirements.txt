@@ -2,3 +2,4 @@ black==21.8b0
 isort==5.9.3
 pytest==6.2.5
 pytest-cov==3.0.0
+yamllint==1.26.3
