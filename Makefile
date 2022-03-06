@@ -1,20 +1,18 @@
 .PHONY: start
 start:
-	@docker compose --profile dagster build
-	@docker compose --profile dagster up
+	@docker compose --profile dagster up --build
 
 .PHONY: start-detached
 start-detached:
-	@docker compose --profile dagster build
-	@docker compose --profile dagster up -d
+	@docker compose --profile dagster up -d --build
 
 .PHONY: restart-data-analytics
 restart-data-analytics:
-	docker container restart $(docker ps -aqf "name=data-analytics")
+	@docker container restart $$(docker ps -aqf "name=data-analytics")
 
 .PHONY: restart-data-science
 restart-data-science:
-	docker container restart $(docker ps -aqf "name=data-science")
+	@docker container restart $$(docker ps -aqf "name=data-science")
 
 .PHONY: down
 down:

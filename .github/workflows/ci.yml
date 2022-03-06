@@ -1,0 +1,43 @@
+---
+name: CI
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Lint
+        run: docker compose run -- format
+
+  test-data-analytics:
+    name: Test Data Analytics
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test Data Analytics
+        run: docker compose run -- data-analytics-test
+
+  test-data-science:
+    name: Test Data Science
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test Data Science
+        run: docker compose run -- data-science-test
