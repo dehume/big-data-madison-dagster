@@ -52,6 +52,7 @@ services:
       - dagster
     volumes:
       - ./dagster.yaml:/opt/dagster/dagster_home/dagster.yaml
+      - ./workspace.yaml:/opt/dagster/dagster_home/workspace.yaml
     networks:
       - dagster_network
 
